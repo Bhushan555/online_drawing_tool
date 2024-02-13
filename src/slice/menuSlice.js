@@ -15,7 +15,6 @@ export const menuSlice=createSlice({
         },
         actionItemClick:(state,action)=>{
             state.actionMenuItem=action.payload
-
         }
     }
 })
