@@ -3,16 +3,22 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencil, faEraser, faRotateLeft, faRotateRight, faFileDownload } from '@fortawesome/free-solid-svg-icons';
 import styles from './index.module.css'
 import { useDispatch, useSelector } from 'react-redux';
-import { MENU_ITEMS } from '@/constant';
+import { COLORS, MENU_ITEMS } from '@/constant';
 import { menuItemClick,actionItemClick } from '@/slice/menuSlice';
 import cx from 'classnames';
+import { socket } from '@/socket';
 
 
 const Menu = () => {
     const dispatch=useDispatch();
     const activeMenuItem = useSelector((state) => state.menu.activeMenuItem)
+    const {color,size} = useSelector((state) => state.toolbox[activeMenuItem])
     const handleMenuClick=(itemName)=>{
         dispatch(menuItemClick(itemName))
+        if(itemName===MENU_ITEMS.PENCIL)
+        socket.emit("changeConfig",{color:COLORS.BLACK,size})
+        else
+        socket.emit("changeConfig",{color:COLORS.WHITE,size})
     }
     const handleActionClick=(itemName)=>{
         dispatch(actionItemClick(itemName))
